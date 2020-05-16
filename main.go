@@ -1,10 +1,12 @@
 package main
 
 import (
+	"net/http"
+
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 
-	"go-user-service/handler"
+	"go-user-service/handler/user"
 )
 
 func main() {
@@ -16,7 +18,10 @@ func main() {
 	e.Use(middleware.Recover())
 
 	// Routes
-	e.GET("/", handler.Hello)
+	e.GET("/", func(c echo.Context) error {
+		return c.String(http.StatusOK, "User Service.")
+	})
+	e.GET("/user", user.RegisterUser)
 
 	// Start server
 	e.Logger.Fatal(e.Start(":1323"))

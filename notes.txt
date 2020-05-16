@@ -1,0 +1,2 @@
+$ go mod init go-user-service
+$ go get github.com/labstack/echo/v4

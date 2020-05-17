@@ -1,7 +1,6 @@
 package user
 
 import (
-	"fmt"
 	"net/http"
 
 	"go-user-service/database"
@@ -12,8 +11,8 @@ import (
 
 type Product struct {
 	gorm.Model
-	Code  string
-	Price uint
+	Code  string `json:"code"`
+	Price uint   `json:"price"`
 }
 
 func RegisterUser(c echo.Context) error {
@@ -27,6 +26,5 @@ func RegisterUser(c echo.Context) error {
 	db.First(&product, 1)                   // find product with id 1
 	db.First(&product, "code = ?", "L1212") // find product with code l1212
 
-	fmt.Println(product)
-	return c.String(http.StatusOK, "Hello, World!")
+	return c.JSON(http.StatusOK, product)
 }

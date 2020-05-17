@@ -10,6 +10,7 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 
+	"go-user-service/database"
 	"go-user-service/handler/user"
 )
 
@@ -19,24 +20,38 @@ type Product struct {
 	Price uint
 }
 
-func main() {
-	db, err := gorm.Open("sqlite3", "test.db")
+func initDatabase() {
+	var err error
+	database.DBConnection, err = gorm.Open("sqlite3", "users.db")
 	if err != nil {
 		panic("failed to connect database")
 	}
-	defer db.Close()
+	fmt.Println("Connection Opened to Database")
 
-	// Migrate the schema
-	db.AutoMigrate(&Product{})
-	// Create
-	db.Create(&Product{Code: "L1212", Price: 1000})
+	// // Migrate the schema
+	database.DBConnection.AutoMigrate(&Product{})
+}
 
-	// Read
-	var product Product
-	db.First(&product, 1)                   // find product with id 1
-	db.First(&product, "code = ?", "L1212") // find product with code l1212
+func main() {
+	// db, err := gorm.Open("sqlite3", "test.db")
+	// if err != nil {
+	// 	panic("failed to connect database")
+	// }
+	// defer db.Close()
 
-	fmt.Println(product)
+	// // Migrate the schema
+	// db.AutoMigrate(&Product{})
+	// // Create
+	// db.Create(&Product{Code: "L1212", Price: 1000})
+
+	// // Read
+	// var product Product
+	// db.First(&product, 1)                   // find product with id 1
+	// db.First(&product, "code = ?", "L1212") // find product with code l1212
+
+	// fmt.Println(product)
+
+	initDatabase()
 
 	// Echo instance
 	e := echo.New()
@@ -53,4 +68,6 @@ func main() {
 
 	// Start server
 	e.Logger.Fatal(e.Start(":1323"))
+
+	defer database.DBConnection.Close()
 }

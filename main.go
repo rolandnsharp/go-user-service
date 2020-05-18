@@ -12,6 +12,8 @@ import (
 
 	"go-user-service/database"
 	handler "go-user-service/handler/user"
+
+	model "go-user-service/model/user"
 )
 
 func initDatabase() {
@@ -22,9 +24,9 @@ func initDatabase() {
 	}
 	fmt.Println("Connection Opened to Database")
 
-	// // Migrate the schema
-	// database.DBConnection.AutoMigrate(&Product{})
-	// fmt.Println("Database migrated.")
+	// Migrate the schema
+	database.DBConnection.AutoMigrate(&model.User{})
+	fmt.Println("Database migrated.")
 
 }
 

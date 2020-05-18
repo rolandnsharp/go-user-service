@@ -11,7 +11,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 
 	"go-user-service/database"
-	"go-user-service/handler/user"
+	handler "go-user-service/handler/user"
 )
 
 func initDatabase() {
@@ -40,7 +40,7 @@ func main() {
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "User Service.")
 	})
-	e.GET("/user", user.RegisterUser)
+	e.GET("/user", handler.RegisterUser)
 
 	e.Logger.Fatal(e.Start(":1323"))
 

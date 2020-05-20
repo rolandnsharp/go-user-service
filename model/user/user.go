@@ -6,6 +6,6 @@ import (
 
 type User struct {
 	gorm.Model
-	Code  string `json:"code"`
-	Price uint   `json:"price"`
+	Name  string `json:"name"`
+	Email string `json:"email"`
 }

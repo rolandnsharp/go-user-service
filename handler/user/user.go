@@ -14,13 +14,11 @@ import (
 func RegisterUser(c echo.Context) error {
 
 	db := database.DBConnection
-	// Create
-	db.Create(&model.User{Code: "L1212", Price: 1000})
+	db.Create(&model.User{Name: "L1212", Email: "blah@email.com"})
 
-	// Read
 	var user model.User
 	db.First(&user, 1)                   // find user with id 1
-	db.First(&user, "code = ?", "L1212") // find user with code l1212
+	db.First(&user, "name = ?", "L1212") // find user with code l1212
 
 	return c.JSON(http.StatusOK, user)
 }
